@@ -1,0 +1,106 @@
+#include<stdio.h>
+#include<string.h>
+ struct student
+{
+    char name[19];
+    float marks[5];
+    char roll_no[11];
+};
+void readlist(struct student list[],int size);      //declaration of functions//
+void printlist(struct student list[],int size);
+float cmpmarks(struct student s);
+
+int main(){
+    int size,code;
+    printf("enter number of students: ");
+    scanf("%d",&size);
+ struct student list[size];
+ readlist(list,size);
+ printf("\n");
+ printlist(list,size);
+ printf("Enter code: ");
+ scanf("%d",&code);
+ sortlist(list ,size,code);
+ printf("list after sorting: \n");
+ printlist(list,size);
+ return 0;
+     
+}
+void readlist( struct student list[],int size){
+    
+         for(int i=0;i<size;i++){
+             printf("Enter name of %dth student: ",i+1);
+             fflush(stdin);
+             gets(list[i].name);
+             printf("Enter roll no.: ");
+             fflush(stdin);
+             gets(list[i].roll_no);
+             printf("Enter marks in each subject: ");
+             for(int j=0;j<5;j++){
+                 scanf("%f",&list[i].marks[j]);
+             }
+             printf("\n");
+         }
+}
+void printlist(struct student list[],int size){
+         
+         for(int i=0;i<size;i++){             //printing name of students//
+             printf("name: %s  ",list[i].name);
+         printf("\n");                       //printing roll no. of students//
+         printf("Roll no.: %s ",list[i].roll_no);
+         printf("marks: ");                  //printing marks of students//
+         for(int j=0;j<5;j++){
+                 printf("%f ",list[i].marks[j]);
+             }
+             printf("\n\n");
+         }
+         
+}
+float cmpmarks(struct student s){           //calculating sum of marks for sorting the list//
+    float sum=0;
+    for(int i=0;i<5;i++){
+        sum+=s.marks[i];
+    }
+    return(sum);
+}
+void sortlist(struct student list[],int size,int code){
+    if(code==1){
+         for(int i=0;i<size;i++){
+             int minIndex=i;
+             for(int j=i+1;j<size;j++){
+                 if(strcasecmp(list[i].name,list[j].name)>0){
+                     minIndex=j;
+                 }
+             }
+            struct student temp =list[i];
+             list[i]=list[minIndex];
+             list[minIndex]=temp;
+         }    
+    }
+     else if(code==2){
+     for(int i=0;i<size;i++){
+         int minIndex=i;
+             for(int j=i+1;j<size;j++){
+                 if(strcasecmp(list[i].roll_no,list[j].roll_no)>0){
+                     minIndex=j;
+                 }
+             }
+            struct student temp =list[i];
+             list[i]=list[minIndex];
+             list[minIndex]=temp;
+     }
+    }
+     else if(code==3){
+        for(int i=0;i<size;i++){
+         int minIndex=i;
+             for(int j=i+1;j<size;j++){
+                 if(cmpmarks(list[i])>cmpmarks(list[j])){
+                     minIndex=j;
+                 }
+             }
+            struct student temp =list[i];
+             list[i]=list[minIndex];
+             list[minIndex]=temp;
+     }
+    }
+}
